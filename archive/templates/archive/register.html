@@ -1,0 +1,34 @@
+{% extends "archive/site_layout.html" %}
+
+{% block body %}
+    {% if message %}
+        <div id="dismissible-alert" class="alert alert-primary">{{ message }}</div>
+    {% endif %}
+
+    <div id="login-container" class="card mx-auto" style="width: 25rem;">
+        <div class="card-body">
+            <h3 id="register-logo">Archive</h3>
+            <h4 id="register-heading" class="card-title">Register</h4>
+            <form action="{% url 'register' %}" method="post">
+                {% csrf_token %}
+                <div class="register-container">
+                    <div class="form-group">
+                        <input class="form-control w-75 p-3 mx-auto" autofocus type="text" name="username" placeholder="Username">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control w-75 p-3 mx-auto" type="email" name="email" placeholder="Email Address">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control w-75 p-3 mx-auto" type="password" name="password" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control w-75 p-3 mx-auto" type="password" name="confirmation" placeholder="Confirm Password">
+                    </div>
+                </div>
+                <input id="register-submit" class="btn btn-primary" type="submit" value="Register">
+                <a id="register-rollback" href="{% url 'login' %}">Log In</a>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

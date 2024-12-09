@@ -1,0 +1,171 @@
+#nav-logo{
+    font-family: 'Playfair Display', Georgia, serif;
+}
+
+#search-logo {
+    font-family: 'Playfair Display', 'Georgia', serif;
+    text-align: center;
+    margin-top: 5rem;
+}
+
+#search-content {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+/* Login & Register CSS */
+
+#dismissible-alert  {
+    text-align: center;
+}
+
+#login-heading, #register-heading {
+    text-align: center;
+}
+
+#login-container, #register-container {
+    margin-top: 2rem;
+}
+
+#login-logo, #register-logo {
+    font-family: 'Playfair Display', serif;
+    text-align: center;
+}
+
+#login-submit, #register-submit {
+    float:right;
+    margin-right: 3.5rem;
+}
+
+#login-create, #register-rollback {
+    margin-left: 3.5rem;
+}
+
+/* Create Form CSS */
+
+#create-form-button {
+    float: right;
+}
+
+/* Breakpoints */
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+    #create-form-container {
+        width: 25rem;
+        margin-left: 0.5rem;
+    }
+
+    #nav-watch {
+        display: block;
+    }
+}
+@media (min-width: 768px) and (max-width: 991.98px) {
+    #create-form-container {
+        width: 30rem;
+    }
+
+    #nav-watch {
+        display: block;
+        flex-direction: column;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    #create-form-container {
+        width: 65rem;
+    }
+
+    #nav-watch {
+        display: none;
+    }
+}
+
+@media (min-width: 1200px) {
+    #create-form-container {
+        width: 75rem;
+        margin-left: 1rem;
+    }
+}
+
+/* Resource Page CSS */
+
+#resource-heading {
+    margin-left: 1rem;
+    margin-top: 2rem;
+}
+
+.resource-component {
+    margin-left: 1rem;
+}
+
+#resource-icon {
+    display: block;
+    margin: 0 auto;
+    margin-top: 1rem;
+}
+
+#resource-button {
+    float: right;
+    margin-right: 1rem;
+}
+
+#resource-edit {
+    float: right;
+    margin-right: 1rem;
+    margin-top: 2rem;
+}
+
+/* Comments Section CSS */
+
+#resource-comments {
+    margin-top: 3rem;
+    padding: 20px;
+}
+
+#comment-sign {
+    margin-left: 0.1rem;
+}
+
+#comment-void {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+/* Search Bar & Page CSS */
+
+#search-box-navbar-submit {
+    vertical-align: middle;
+}
+
+#search-container > div {
+    margin: 20px;
+    padding: 20px;
+}
+
+#profile-username {
+    text-align: center;
+}
+
+#profile-join-date {
+    text-align: center;
+}
+
+#profile-badge {
+    text-align: center;
+}
+
+/* Browse Page CSS*/
+
+#dock {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+#heading {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+#audio-view, #books-view, #images-view, #software-view, #video-view, #unknown-view {
+    padding: 20px;
+}

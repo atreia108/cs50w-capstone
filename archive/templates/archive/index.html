@@ -1,0 +1,48 @@
+{% extends "archive/home_layout.html" %}
+{% load static %}
+
+{% block body %}
+    <div class="mx-auto">
+        <h1 id="search-logo" class="display-1">Archive</h1>
+        <p id="search-content" class="lead">Search from a massive collection of archived material.</p>
+
+        <form action="{% url 'search' %}">
+            <div class="input-group mx-auto" style="width:420px;padding: 15px;">
+                <input id="search-nav" class="form-control" type="text" name="q">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="float: left;">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                        </svg>
+                    </span>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="most-popular" style="padding: 20px; margin-top: 3rem;">
+        {% if checkpoint > 0 %}
+            <h1 style="margin-bottom: 1rem;">Most Popular</h1>
+        {% endif %}
+        {% for resource in resource_collection %}
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{ resource.icon }}" style="max-width: 200px; margin-left: 150px;" alt="{{ resource.name }}">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ resource.name }}</h5>
+                            <h6 class="card-subtitle md-2 text-muted">{{ resource.get_category_display }}</h6>
+                            <br>
+                            <p class="card-subtitle mb-2 text-muted">Posted {{ resource.publication_date }}</p>
+                            <br>
+                            <a href="{% url 'resource' resource.id %}" class="btn btn-outline-primary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {%empty%}
+        {% endfor %}
+    </div>
+{% endblock %}

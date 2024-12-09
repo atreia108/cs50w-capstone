@@ -1,0 +1,111 @@
+{% extends "archive/site_layout.html" %}
+{% load static %}
+
+{% block body %}
+    <div style="padding: 20px;">
+        <h1>User Requests</h1>
+        <p class="lead">Request software you'd like to see on the Archive.</p>
+        {% if user.is_authenticated %}
+            <div id="request-form" class="card mb-3" style="margin-top: 1rem;">
+                <div class="row g-0">
+                    <div class="card-body">
+                        <form style="padding: 20px;">
+                            <h5 id="card-title">New Request</h5>
+                            <hr>
+                            <div class="form-group">
+                                <input id="request-title" class="form-control" type="text" name="request-title" placeholder="Title" required>
+                            </div>
+                            <div class="form-group">
+                                <textarea id="request-description" class="form-control" name="request-description" rows="3" placeholder="Body" required></textarea>
+                            </div>
+                            <input id="submit" type="submit" class="btn btn-primary" value="Post"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if pagination_render_state %}
+            <nav aria-label="Page Navigator">
+                <ul class="pagination justify-content-center">
+                    {% if requests.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page={{ requests.previous_page_number }}">Previous</a></li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">Previous</span>
+                        </li>
+                    {% endif %}
+                    {% if requests.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ requests.next_page_number }}">Next</a></li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">Next</span>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% else %}
+        {% endif %}
+
+        {% for request in requests %}
+            <div class="card" style="margin-bottom: 1rem; margin-top: 1rem;">
+                <div class="card-body">
+                    {% if request.priority_number in LOW_PRIORITY_RANGE %}
+                        <span class="badge badge-info" style="float: right;">Low Priority</span>
+                    {% elif request.priority_number in MEDIUM_PRIORITY_RANGE %}
+                        <span class="badge badge-warning" style="float: right;">Medium Priority</span>
+                    {% else %}
+                        <span class="badge badge-danger" style="float: right;">High Priority</span>
+                    {% endif %}
+                    <h5 class="card-title">{{ request.title }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">By <a href="{% url 'profile' request.request_author.id %}">{{ request.request_author }}</a></h6>
+                    <p class="card-text">{{ request.description }}</p>
+                    <p class="card-subtitle mb-2 text-muted">Posted on {{ request.request_date }}</p>
+                    {% if anonymity %}
+                    {% else %}
+                        {% if request.request_author == user %}
+                            <a href="{% url 'close_request' request.id %}" class="btn btn-sm btn-outline-dark" style="float: right;">Close</a>
+                        {% endif %}
+                        {% if request in user_collections %}
+                            <a onclick="revoke({{request.id}})" class="btn btn-sm btn-secondary" href="#" id="revoke{{request.id}}">Revoke</a>
+                            <a onclick="support({{request.id}})" class="btn btn-sm btn-outline-primary"  href="#" id="support{{request.id}}" style="display: none;">Support</a>
+                        {% else %}
+                            <a onclick="support({{request.id}})" class="btn btn-sm btn-outline-primary"  href="#" id="support{{request.id}}">Support</a>
+                            <a onclick="revoke({{request.id}})" class="btn btn-sm btn-secondary" href="#" id="revoke{{request.id}}" style="display: none;">Revoke</a>
+                        {% endif %}
+                    {% endif %}
+                    <p id="priority-number{{request.id}}" class="text-muted">{{ request.priority_number }} users support this.</p>
+                </div>
+            </div>
+        {% empty %}
+            <h2 class="text-muted" style="text-align: center;">No requests have been made yet.</h2>
+        {% endfor %}
+
+        {% if pagination_render_state %}
+            <nav aria-label="Page Navigator">
+                <ul class="pagination justify-content-center">
+                    {% if requests.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page={{ requests.previous_page_number }}">Previous</a></li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">Previous</span>
+                        </li>
+                    {% endif %}
+                    {% if requests.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ requests.next_page_number }}">Next</a></li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">Next</span>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% else %}
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'archive/open_request.js' %}"></script>
+    <script src="{% static 'archive/support.js' %}"></script>
+    <script src="{% static 'archive/revoke.js' %}"></script>
+{% endblock %}

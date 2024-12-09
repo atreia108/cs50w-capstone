@@ -1,0 +1,42 @@
+{% extends "archive/site_layout.html" %}
+{% load static %}
+
+{% block body %}
+    <div id="heading">
+    </div>
+
+    <div id="dock" class="mx-auto" role="group">
+        <button type="button" class="btn btn-sm btn-outline-primary" id="audio">Audio</button>
+        <button type="button" class="btn btn-sm btn-outline-primary" id="books">Books</button>
+        <button type="button" class="btn btn-sm btn-outline-primary" id="images">Images</button>
+        <button type="button" class="btn btn-sm btn-outline-primary" id="software">Software</button>
+        <button type="button" class="btn btn-sm btn-outline-primary" id="video">Video</button>
+        <button type="button" class="btn btn-sm btn-outline-primary" id="unknown">Unknown</button>
+    </div>
+
+    <div id="empty-view" style="display: none;">
+        <h2 class="text-muted" style="text-align: center; margin-top: 4rem;">No resources under this category have been uploaded yet.</h2>
+    </div>
+
+    <div id="audio-view" style="margin-top: 2rem;">
+    </div>
+
+    <div id="books-view" style="margin-top: 2rem;">
+    </div>
+
+    <div id="images-view" style="margin-top: 2rem;">
+    </div>
+
+    <div id="software-view" style="margin-top: 2rem;">
+    </div>
+
+    <div id="video-view" style="margin-top: 2rem;">
+    </div>
+
+    <div id="unknown-view" style="margin-top: 2rem;">
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'archive/dock.js' %}"></script>
+{% endblock %}

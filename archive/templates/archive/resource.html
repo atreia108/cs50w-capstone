@@ -1,0 +1,108 @@
+{% extends "archive/site_layout.html" %}
+{% load static %}
+
+{% block body %}
+    <div id="resource-container">
+        <img src="{{ resource.icon }}" alt="{{ resource.name }}" id="resource-icon" class="img-fluid">
+        {% if user.is_authenticated %}
+            {% if request.user == resource.author %}    
+                <a href="#" class="btn btn-outline-dark" id="resource-edit" data-res="{{ resource.id }}">Edit</a>
+            {% endif %}
+        {% endif %}
+        <h2 id="resource-heading">{{ resource.name }}</h2>
+        <hr style="width: 97%;">
+        <a href="{% url 'download_file' resource.id %}" class="btn btn-outline-primary" id="resource-button" >Download</a>
+        <p id="resource-author" class="resource-component"><b>Posted by</b> <b></b><a href="{% url 'profile' resource.author.id %}">{{ resource.author }}</a></p></p>
+        <p id="resource-pubdate" class="resource-component"><b>Publication Date:</b> {{ resource.publication_date }}</p>
+        <p id="resource-category" class="resource-component"><b>Category:</b> {{ resource.get_category_display }}</p>
+
+        <div id="resource-description" class="resource-component">
+            {{ description|safe }}
+        </div>
+
+        <div class="card shadow-sm p-3 mb-5 bg-white rounded mx-auto" style="margin-top: 2rem; width: 18rem;">
+            <div class="row g-0">
+                <div class="mx-auto">
+                    <h4 style="text-align: center; margin-top: 0.5rem;">{{ resource.download_count }}</h4>
+                    <p style="text-align: center;">Downloads</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="resource-comments">
+        <p class="display-4" id="comment-sign">Comments</p>
+        <hr style="width: 97%;">
+        {% if user.is_authenticated %}
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="card-body">
+                        <form action="{% url 'post_comment' resource.id %}" id="comment-form" method="POST" style="padding: 20px;">
+                            {% csrf_token %}
+                            <h5 id="card-title">New Comment</h5>
+                            <hr>
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="comment-title" placeholder="Title" required>
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" name="comment-body" rows="3" placeholder="Body" required></textarea>
+                            </div>
+                            <input id="submit" type="submit" class="btn btn-primary" value="Post"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% for comment in comments %}
+            <div id="comment" class="card" style="margin-bottom: 1rem; margin-top: 1rem;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ comment.title }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">By <a href="#">@{{ comment.user }}</a></h6>
+                    <p class="card-text">{{ comment.body }}</p>
+                    <p class="card-subtitle mb-2 text-muted">Posted on {{ comment.post_date }}</p>
+                </div>
+            </div>
+        {% empty %}
+            <h6 class="text-muted" id="comment-void">No comments have been posted on this listing yet.</h6>
+        {% endfor %}
+    </div>
+
+    <div id="create-resource" style="padding: 20px; margin-top: 1rem; display: none;">
+        <div class="card mb-3">
+            <div class="row g-0">
+                <div class="card-body">
+                    <form action="{% url 'save_resource' resource.id %}" method="POST" style="padding: 20px;">
+                        {% csrf_token %}
+                        <h2 class="card-title">Edit</h2>
+                        <hr>
+                        <div class="form-group">
+                            <input type="text" name="id_name" class="form-control" placeholder="Title" maxlength="256" required id="id_name">
+                        </div>
+                        <div class="form-group">
+                            <input type="url" name="id_icon" class="form-control" placeholder="Icon URL" maxlength="200" required id="id_icon">
+                        </div>
+                        <div class="form-group">
+                            <select name="id_category" class="form-control" id="id_category">
+                                <option value="AU">Audio</option>
+                                <option value="BK">Books</option>
+                                <option value="SF">Software</option>
+                                <option value="IM">Images</option>
+                                <option value="VD">Video</option>
+                                <option value="UN" selected="">Unknown</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="id_description" cols="40" rows="8" class="form-control" placeholder="Description" style="resize: none" max-width="40" required="" id="id_description"></textarea>
+                        </div>
+                        <button id="back-button" type="button" class="btn btn-outline-secondary">Back</button>
+                        <button id="create-form-button" type="submit" class="btn btn-outline-success">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'archive/res_edit.js' %}"></script>
+{% endblock %}

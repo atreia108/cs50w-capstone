@@ -1,0 +1,34 @@
+{% extends "archive/site_layout.html" %}
+{% load static %}
+
+{% block body %}
+    {% if exact_hits != 0 %}
+        <p class="lead" style="margin-left: 1rem; margin-top: 1rem;">Hmm it looks like there weren't great matches for "{{ search_term }}".</p>
+        <h5 style="margin-left: 1rem; margin-top: 1rem;">Perhaps you were looking for the following?</h5>
+    {% else %}
+        <p class="lead" style="margin-top: 1rem; text-align: center;">Sorry we couldn't find what you were looking for.</p>
+        <h5 style="margin-top: 1rem; text-align: center;">Please check your search terms and try again.</h5>
+    {% endif %}
+    <div style="padding: 20px;">
+        {% for resource in search_results %}
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{ resource.icon }}" style="max-width: 200px; margin-left: 150px;" alt="{{ resource.name }}">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ resource.name }}</h5>
+                            <h6 class="card-subtitle md-2 text-muted">{{ resource.get_category_display }}</h6>
+                            <br>
+                            <p class="card-subtitle mb-2 text-muted">Posted {{ resource.publication_date }}</p>
+                            <br>
+                            <a href="{% url 'resource' resource.id %}" class="btn btn-outline-primary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {%empty%}
+        {% endfor %}
+    </div>
+{% endblock %}

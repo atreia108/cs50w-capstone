@@ -1,0 +1,2 @@
+- Archive only makes use of the python library 'markdown2' used in Project 1 "Wiki".
+- The rest of the libraries are all delivered via CDN upon running the web server. 
